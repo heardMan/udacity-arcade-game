@@ -1,3 +1,4 @@
+
 // Enemies our player must avoid
 const Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -75,10 +76,7 @@ Player.prototype.update = function(input) {
     
 };
 
-Player.prototype.render = function() {
-    //TODO: borrow this directly from the enemy constructor to save memory
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Player.prototype.render = Enemy.prototype.render;
 
 Player.prototype.handleInput = function(input) {
     //console.log(input);
