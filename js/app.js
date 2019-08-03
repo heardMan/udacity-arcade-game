@@ -52,12 +52,13 @@ Enemy.prototype.setSpeed = function() {
 // a handleInput() method.
 
 const Player = function() {
+    this.win = null;
     //starting x position for player
     this.x = 200;
     //starting y position for player
     this.y = 385;
     //image for player
-    this.sprite = 'images/char-boy.png';
+    this.sprite = null;
 };
 
 Player.prototype.update = function(input) {
@@ -68,7 +69,7 @@ Player.prototype.update = function(input) {
      //if up key is pushed within a valid x range move player up
      else if (input === 'up' && this.y > 99) this.y -= 85
      //if up key is pushed outside a valid x range reset player position to lowest position
-     else if (input === 'up' && this.y <= 99) console.log('you win'); //run win sequence
+     else if (input === 'up' && this.y <= 99) player.win = true; //run win sequence
      //if down key is pushed within a valid x range move player down
      else if(input === 'down' && this.y <= 350) this.y += 85
       
@@ -109,7 +110,16 @@ const player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+
+function receiveInput(){
+    document.addEventListener('keyup', listen);
+}
+function pauseInput(){
+    document.removeEventListener('keyup', listen);
+}
+
+
+function listen(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -119,4 +129,6 @@ document.addEventListener('keyup', function(e) {
     //console.log(allowedKeys[e.keyCode]);
     
     player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+
+

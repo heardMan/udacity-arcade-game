@@ -1,3 +1,51 @@
 body {
     text-align: center;
 }
+
+#modal {
+    position:fixed;
+    z-index: -1;
+    display: none;
+    border-radius: 1.5%;
+    background-color: #dfe6e9;
+    padding-bottom: 2rem;
+}
+
+.startMenu {
+    top: 15%;
+    left: 0;
+    right:0;
+    margin-left: auto;
+    margin-right:auto;
+    width: 505px;
+    height: auto;
+}
+
+.gameMessage {
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    width: 405px;
+    height: auto;
+}
+
+.selectionAvatar {
+    width: 50px;
+    height: auto;
+    z-index: 9;
+}
+
+#avatar-selector {
+    position: absolute;
+    top: 75px;
+    
+    width: 52px;
+    height: auto;
+    z-index: -1;
+}
+
+#playButton {
+    border-radius: 10px;
+}
