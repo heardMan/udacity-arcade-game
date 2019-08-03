@@ -47,6 +47,11 @@ Enemy.prototype.setSpeed = function() {
     return Math.floor(Math.random() * 250) + 120;
  };
 
+ Enemy.prototype.reset = function() {
+    this.x = -115;
+    this.setY();
+ };
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -59,6 +64,8 @@ const Player = function() {
     this.y = 385;
     //image for player
     this.sprite = null;
+    //number of lives a player gets
+    this.lives = 3;
 };
 
 Player.prototype.update = function(input) {
@@ -99,13 +106,18 @@ Player.prototype.handleInput = function(input) {
    
 };
 
+Player.prototype.reset = function() {
+    player.x = 200;
+    player.y = 385;
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const enemy1 = new Enemy();
 const enemy2 = new Enemy();
 const enemy3 = new Enemy();
-const allEnemies = [enemy1, enemy2];
+const allEnemies = [enemy1, enemy2, enemy3];
 const player = new Player();
 
 // This listens for key presses and sends the keys to your

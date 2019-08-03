@@ -126,9 +126,14 @@ var Engine = (function (global) {
         player.update();
     }
 
+    /**
+     * @description this function handle all the main collision logic for the game
+     * @param {object} enemy this is the enemy instance currently being checked for collision
+     * with the player 
+     */
     function checkCollisions(enemy) {
         /**
-        * @description Here we chack for collisions by first comparing the x values for 
+        * @description Here we check for collisions by first comparing the x values for 
         * each charcter on screen, next we compare the y positions to see if the images 
         * over lap. A In theory a more flexible arrangement would be to check the
         * y position first (allows for easier tracking of impending collisions), 
@@ -141,9 +146,9 @@ var Engine = (function (global) {
             * point from the center of the avatar to the edge; we also perform 
             * a similar adjustment on the enemy 
             */
-            if (enemy.y === 62 && player.y === 45) player.win = false;
-            else if (enemy.y === 145 && player.y === 130) player.win = false;
-            else if (enemy.y === 227 && player.y === 215) player.win = false;
+            if (enemy.y === 62 && player.y === 45) checkLives(enemy);
+            else if (enemy.y === 145 && player.y === 130) checkLives(enemy);
+            else if (enemy.y === 227 && player.y === 215) checkLives(enemy);
             /**
             * @description Here we compare the y values and if they indicate a collision
             * we set the win property on the player class instance to false
@@ -151,6 +156,23 @@ var Engine = (function (global) {
             
         }
 
+    }
+
+    /**
+         * @description here we check the number of lives remaining so that we can determine
+         * hoew the game should progress
+         * @param {object} currentEnemy this is the cureently active enemy for whom a collision
+         * has been confirmed
+         */
+    function checkLives(currentEnemy) {
+        
+        if(player.lives > 0){
+            player.lives -= 1;
+            player.reset();
+            currentEnemy.reset();
+        } else {
+            player.win = false;
+        }
     }
 
     /**  
@@ -233,12 +255,10 @@ var Engine = (function (global) {
         modal.startMenu();
         //reset the enemy position
         allEnemies.forEach(enemy => {
-            enemy.x = -115;
-            enemy.setY();
+            enemy.reset();
         })
         //reset the player position
-        player.x = 200;
-        player.y = 385;
+        player.reset();
     }
 
     /**
