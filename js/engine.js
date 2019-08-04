@@ -44,6 +44,9 @@ var Engine = (function (global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
+            
+            
+            
         /**  
          * @description Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -93,7 +96,7 @@ var Engine = (function (global) {
         reset();
         lastTime = Date.now();
         //uncomment for production
-        //main();
+        main();
 
     }
 
@@ -110,6 +113,12 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         allEnemies.forEach(enemy => checkCollisions(enemy));
+        if(player.sprite !== null){
+            timer.run(dt);
+        } else {
+            timer.time = 5;
+        }
+        
     }
 
     /** 
@@ -263,6 +272,7 @@ var Engine = (function (global) {
         //reset the player position
         player.reset();
         player.lives = 3;
+        
     }
 
     /**
@@ -388,6 +398,9 @@ var Engine = (function (global) {
                 const selected = (avatarSector.style.left.split('px')[0] - 125) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
+                //timer.stop();
+                //timer.runFor(30);
+                timer.time = 4.99;
                 scoreboard.show();
                 self.close();
                 
@@ -422,6 +435,8 @@ var Engine = (function (global) {
 
     }
 
+
+
     const scoreboard = {
 /**
      * @description this method refreshed the values on the scoreboard
@@ -431,7 +446,7 @@ var Engine = (function (global) {
         const timerElement = doc.getElementById('time');
         const pointsElement = doc.getElementById('points');
         livesElement.innerHTML = player.lives;
-        //timerElement.innerHTML = timer.time;
+        timerElement.innerHTML = timer.timeConverter(timer.time);
         //pointsElement.innerHTML = player.points;
     },
 
@@ -454,7 +469,52 @@ var Engine = (function (global) {
     }
     }
     
-    
+    const timer = {
+        duration: 0,
+        time:0,
+        intervalId: null,
+        runFor: function(duration){
+            this.duration = duration;
+            this.time = duration;
+            setTimeout(function(){
+                this.intervalId = setInterval(this.decrement, 1000);
+            }, 0)
+        },
+        stop: function(){
+            clearInterval(this.intervalId);
+        },
+        run: function(dt){
+            if(this.time > 0){
+                this.time -= dt;
+            } else {
+                this.timeUp();
+            }
+        },
+        decrement: function(){
+            this.time -- ;
+            console.log(this.time);
+        },
+        timeUp: function() {
+            
+            if(player.lives > 0) {
+                player.lives --;
+                timer.time = 4.99;
+                //add an onscreen alert here
+            } else {
+                player.win = false;
+                
+            }
+
+        },
+        timeConverter: function (t) {
+
+            if(t>1){
+                return t.toString().split('.')[0];
+            } else {
+                return 0;
+            }
+        }
+    }
     
 
     /* Go ahead and load all of the images we know we're going to need to
