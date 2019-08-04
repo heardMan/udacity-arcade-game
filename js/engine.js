@@ -239,7 +239,7 @@ var Engine = (function (global) {
         });
         if (player.sprite !== null || undefined) player.render();
 
-        scoreboardRefresh();
+        scoreboard.refresh();
 
     }
 
@@ -262,6 +262,7 @@ var Engine = (function (global) {
         })
         //reset the player position
         player.reset();
+        player.lives = 3;
     }
 
     /**
@@ -333,7 +334,7 @@ var Engine = (function (global) {
          * @description this is the start menu method that truns the modal into a start menu
          */
         startMenu: function () {
-            hideScoreboard();
+            scoreboard.hide();
             const characterArray = [
                 'images/char-boy.png',
                 'images/char-cat-girl.png',
@@ -383,10 +384,11 @@ var Engine = (function (global) {
             * button.
             */
             function selectCharacter() {
-                const selected = (doc.getElementById('avatar-selector').style.left.split('px')[0] - 125) / 50;
+                const avatarSector = doc.getElementById('avatar-selector');
+                const selected = (avatarSector.style.left.split('px')[0] - 125) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
-                showScoreboard();
+                scoreboard.show();
                 self.close();
                 
             }
@@ -407,48 +409,52 @@ var Engine = (function (global) {
                 const selectLength = (characterArray.length * 50) + 30;
 
                 if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength) 
-                    //if the right key is pressed and we aren't on the last character move right one space
+                    //if right key pressed and last character is not selected move right 50px
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                    //here we take the current position of the selector and then move it by 50 px
+                    //take the current position of the selector and move it by 50 px
                  else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 125) 
-                    //if the left key is pressed and we aren't on the first character move left one space
+                    //if left key pressed and last character is not selected move left 50px
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                    //here we take the current position of the selector and then move it by 50 px
+                    //take the current position of the selector and move it by 50 px
             }
 
         }
 
     }
 
-    /**
-     * @description this function refreshed the values on the scoreboard
+    const scoreboard = {
+/**
+     * @description this method refreshed the values on the scoreboard
      */
-    function scoreboardRefresh() {
+    refresh: function scoreboardRefresh() {
         const livesElement = doc.getElementById('lives');
         const timerElement = doc.getElementById('time');
         const pointsElement = doc.getElementById('points');
         livesElement.innerHTML = player.lives;
         //timerElement.innerHTML = timer.time;
         //pointsElement.innerHTML = player.points;
-    }
+    },
 
     /**
-     * @description this function makes the scoreboard visible
+     * @description this method makes the scoreboard visible
      */
-    function showScoreboard () {
+    show: function showScoreboard () {
         const scoreboardContainer = doc.getElementById('scoreContainer');
         scoreboardContainer.classList.remove('hide');
-    }
+    },
 
     /**
-     * @description this function makes the scoreboard not visible
+     * @description this method makes the scoreboard not visible
      */
-    function hideScoreboard () {
+    hide: function hideScoreboard () {
         const scoreboardContainer = doc.getElementById('scoreContainer');
         console.log(scoreboardContainer.style.display);
         scoreboardContainer.classList.add('hide');
         console.log(scoreboardContainer.style.display);
     }
+    }
+    
+    
     
 
     /* Go ahead and load all of the images we know we're going to need to
