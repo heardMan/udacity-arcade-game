@@ -1,6 +1,14 @@
 body {
     text-align: center;
 }
+canvas{
+    position: absolute;
+    top: 55px;
+    right:0;
+    left:0;
+    margin-right: auto;
+    margin-left:auto;
+}
 
 #modal {
     position:fixed;
@@ -12,22 +20,22 @@ body {
 }
 
 .startMenu {
-    top: 15%;
+    top: 165px;
     left: 0;
     right:0;
     margin-left: auto;
     margin-right:auto;
-    width: 505px;
+    width: 450px;
     height: auto;
 }
 
 .gameMessage {
-    top: 20%;
+    top: 165px;
     left: 0;
     right: 0;
     margin-right: auto;
     margin-left: auto;
-    width: 405px;
+    width: 450px;
     height: auto;
 }
 
@@ -52,7 +60,7 @@ body {
 
 #scoreboard {
     position: absolute;
-    top: 5%;
+    top: 45px;
     left: 0;
     right: 0;
     margin-right: auto;

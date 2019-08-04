@@ -66,6 +66,10 @@ const Player = function() {
     this.sprite = null;
     //number of lives a player gets
     this.lives = 3;
+    //players score attribute
+    this.score = 0;
+    //collected items
+    this.storage = [];
 };
 
 Player.prototype.update = function(input) {

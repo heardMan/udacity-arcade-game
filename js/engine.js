@@ -44,9 +44,9 @@ var Engine = (function (global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-            
-            
-            
+
+
+
         /**  
          * @description Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -92,7 +92,7 @@ var Engine = (function (global) {
      * game loop.
      */
     function init() {
-        
+
         reset();
         lastTime = Date.now();
         //uncomment for production
@@ -113,12 +113,12 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         allEnemies.forEach(enemy => checkCollisions(enemy));
-        if(player.sprite !== null){
+        if (player.sprite !== null) {
             timer.run(dt);
         } else {
-            timer.time = 5;
+            timer.reset();
         }
-        
+
     }
 
     /** 
@@ -163,7 +163,7 @@ var Engine = (function (global) {
             * @description Here we compare the y values and if they indicate a collision
             * we set the win property on the player class instance to false
             */
-            
+
         }
 
     }
@@ -175,14 +175,17 @@ var Engine = (function (global) {
          * has been confirmed
          */
     function checkLives(currentEnemy) {
-        
-        if(player.lives > 0){
+
+        if (player.lives > 0) {
             player.lives -= 1;
+            
             player.reset();
             currentEnemy.reset();
         } else {
             player.win = false;
         }
+        player.points -= 100;
+        timer.reset();
     }
 
     /**  
@@ -272,7 +275,9 @@ var Engine = (function (global) {
         //reset the player position
         player.reset();
         player.lives = 3;
-        
+        player.points = 500;
+        timer.reset();
+
     }
 
     /**
@@ -311,7 +316,7 @@ var Engine = (function (global) {
          * if blank default value is 'Close'
          * @returns a DOM element that is a button 
          */
-        affirmButton: function (buttonText) {
+        affirmButton: function modalAffirmButton(buttonText) {
             const button = doc.createElement('button');
             button.textContent = typeof buttonText === 'string' ? buttonText : 'Close';
             button.addEventListener('click', () => {
@@ -328,7 +333,7 @@ var Engine = (function (global) {
          * intended for communicating simple game status messages like 'You Win!'
          * @param {string} message this is the text the modal will display
          */
-        message: function (message) {
+        message: function modalMessage(message) {
 
             const content = doc.createElement('div');
             const messageElement = doc.createElement('h2');
@@ -343,7 +348,7 @@ var Engine = (function (global) {
         /**
          * @description this is the start menu method that truns the modal into a start menu
          */
-        startMenu: function () {
+        startMenu: function modalStartMenu() {
             scoreboard.hide();
             const characterArray = [
                 'images/char-boy.png',
@@ -363,7 +368,7 @@ var Engine = (function (global) {
             const selectorImage = doc.createElement('img');
             selectorImage.setAttribute('id', 'avatar-selector');
             selectorImage.setAttribute('src', 'images/Selector.png');
-            selectorImage.style.left = '125px';
+            selectorImage.style.left = '100px';
             //add charactersto the character array
             characterArray.forEach(character => {
                 let avatarImage = doc.createElement('img');
@@ -371,7 +376,7 @@ var Engine = (function (global) {
                 avatarImage.className = 'selectionAvatar';
                 avatarContainer.append(avatarImage);
             });
-            
+
             avatarContainer.append(selectorImage);
             title.textContent = 'Choose a Player'
 
@@ -395,15 +400,16 @@ var Engine = (function (global) {
             */
             function selectCharacter() {
                 const avatarSector = doc.getElementById('avatar-selector');
-                const selected = (avatarSector.style.left.split('px')[0] - 125) / 50;
+                const selected = (avatarSector.style.left.split('px')[0] - 100) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
                 //timer.stop();
                 //timer.runFor(30);
-                timer.time = 4.99;
+                timer.reset();
+                
                 scoreboard.show();
                 self.close();
-                
+
             }
             /**
              * @description Since our open modal method removes the games event listeners we must 
@@ -416,19 +422,19 @@ var Engine = (function (global) {
                     37: 'left',
                     39: 'right'
                 };
-                
+
                 const avatarSelector = doc.getElementById('avatar-selector');
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
                 const selectLength = (characterArray.length * 50) + 30;
 
-                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength) 
+                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength)
                     //if right key pressed and last character is not selected move right 50px
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                    //take the current position of the selector and move it by 50 px
-                 else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 125) 
+                //take the current position of the selector and move it by 50 px
+                else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 125)
                     //if left key pressed and last character is not selected move left 50px
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                    //take the current position of the selector and move it by 50 px
+                //take the current position of the selector and move it by 50 px
             }
 
         }
@@ -438,84 +444,98 @@ var Engine = (function (global) {
 
 
     const scoreboard = {
-/**
-     * @description this method refreshed the values on the scoreboard
-     */
-    refresh: function scoreboardRefresh() {
-        const livesElement = doc.getElementById('lives');
-        const timerElement = doc.getElementById('time');
-        const pointsElement = doc.getElementById('points');
-        livesElement.innerHTML = player.lives;
-        timerElement.innerHTML = timer.timeConverter(timer.time);
-        //pointsElement.innerHTML = player.points;
-    },
+        /**
+         * @description this method refreshed the values on the scoreboard
+         */
+        refresh: function scoreboardRefresh() {
+            const livesElement = doc.getElementById('lives');
+            const timerElement = doc.getElementById('time');
+            const pointsElement = doc.getElementById('points');
+            livesElement.innerHTML = player.lives;
+            timerElement.innerHTML = timer.timeConverter(timer.time);
+            pointsElement.innerHTML = player.points;
+        },
+
+        /**
+         * @description this method makes the scoreboard visible
+         */
+        show: function showScoreboard() {
+            const scoreboardContainer = doc.getElementById('scoreContainer');
+            scoreboardContainer.classList.remove('hide');
+        },
+
+        /**
+         * @description this method makes the scoreboard not visible
+         */
+        hide: function hideScoreboard() {
+            const scoreboardContainer = doc.getElementById('scoreContainer');
+            console.log(scoreboardContainer.style.display);
+            scoreboardContainer.classList.add('hide');
+            console.log(scoreboardContainer.style.display);
+        }
+    }
+
 
     /**
-     * @description this method makes the scoreboard visible
+     * @descrition this is the timer object it contains 
+     * all the methods and logic for keeping time in the game
      */
-    show: function showScoreboard () {
-        const scoreboardContainer = doc.getElementById('scoreContainer');
-        scoreboardContainer.classList.remove('hide');
-    },
-
-    /**
-     * @description this method makes the scoreboard not visible
-     */
-    hide: function hideScoreboard () {
-        const scoreboardContainer = doc.getElementById('scoreContainer');
-        console.log(scoreboardContainer.style.display);
-        scoreboardContainer.classList.add('hide');
-        console.log(scoreboardContainer.style.display);
-    }
-    }
-    
     const timer = {
-        duration: 0,
-        time:0,
-        intervalId: null,
-        runFor: function(duration){
-            this.duration = duration;
-            this.time = duration;
-            setTimeout(function(){
-                this.intervalId = setInterval(this.decrement, 1000);
-            }, 0)
+        //this is the current time on the timer
+        time: 0,
+        /**
+         * @description this function resets the timer for X number of seconds
+         * @param {number} t - this is an interger for the number of seconds the
+         * timer should be set for 
+         */
+        reset: function (t) {
+            if(typeof t === Number) timer.time = t;
+            else this.time = 15.99;
+           
         },
-        stop: function(){
-            clearInterval(this.intervalId);
-        },
-        run: function(dt){
-            if(this.time > 0){
+        /**
+         * @description this method decrements the timers time by adding up the 
+         * @param {JS date object} dt - this is the time constant generated by the
+         * game engine 
+         */
+        run: function (dt) {
+            if (this.time > 0) {
                 this.time -= dt;
             } else {
                 this.timeUp();
             }
         },
-        decrement: function(){
-            this.time -- ;
-            console.log(this.time);
-        },
-        timeUp: function() {
-            
-            if(player.lives > 0) {
-                player.lives --;
-                timer.time = 4.99;
-                //add an onscreen alert here
+        /**
+         * @description this method contains logic for what to do when the timer runs out
+         */
+        timeUp: function () {
+
+            if (player.lives > 0) {
+                // subtract a life
+                player.lives--;
+                // subtract 100 points
+                player.points -= 100;
+                // reset timer
+                timer.reset();
+                //add an onscreen alert here later
             } else {
+                // set win property to false
                 player.win = false;
-                
+
             }
 
         },
+        /**
+         * @description this method converts the long floating point
+         * into a neat integer
+         * @param {number} t - current number of seconds
+         */
         timeConverter: function (t) {
-
-            if(t>1){
+            if (t > 1) {
                 return t.toString().split('.')[0];
-            } else {
-                return 0;
-            }
+            } 
         }
     }
-    
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
