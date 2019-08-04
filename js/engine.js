@@ -89,6 +89,7 @@ var Engine = (function (global) {
      * game loop.
      */
     function init() {
+        
         reset();
         lastTime = Date.now();
         //uncomment for production
@@ -238,6 +239,8 @@ var Engine = (function (global) {
         });
         if (player.sprite !== null || undefined) player.render();
 
+        scoreboardRefresh();
+
     }
 
     /** 
@@ -330,7 +333,7 @@ var Engine = (function (global) {
          * @description this is the start menu method that truns the modal into a start menu
          */
         startMenu: function () {
-
+            hideScoreboard();
             const characterArray = [
                 'images/char-boy.png',
                 'images/char-cat-girl.png',
@@ -383,7 +386,9 @@ var Engine = (function (global) {
                 const selected = (doc.getElementById('avatar-selector').style.left.split('px')[0] - 125) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
+                showScoreboard();
                 self.close();
+                
             }
             /**
              * @description Since our open modal method removes the games event listeners we must 
@@ -414,6 +419,37 @@ var Engine = (function (global) {
         }
 
     }
+
+    /**
+     * @description this function refreshed the values on the scoreboard
+     */
+    function scoreboardRefresh() {
+        const livesElement = doc.getElementById('lives');
+        const timerElement = doc.getElementById('time');
+        const pointsElement = doc.getElementById('points');
+        livesElement.innerHTML = player.lives;
+        //timerElement.innerHTML = timer.time;
+        //pointsElement.innerHTML = player.points;
+    }
+
+    /**
+     * @description this function makes the scoreboard visible
+     */
+    function showScoreboard () {
+        const scoreboardContainer = doc.getElementById('scoreContainer');
+        scoreboardContainer.classList.remove('hide');
+    }
+
+    /**
+     * @description this function makes the scoreboard not visible
+     */
+    function hideScoreboard () {
+        const scoreboardContainer = doc.getElementById('scoreContainer');
+        console.log(scoreboardContainer.style.display);
+        scoreboardContainer.classList.add('hide');
+        console.log(scoreboardContainer.style.display);
+    }
+    
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when

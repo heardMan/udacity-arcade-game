@@ -49,3 +49,18 @@ body {
 #playButton {
     border-radius: 10px;
 }
+
+#scoreboard {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 0.5rem;
+    width: 500px;
+}
+
+.hide {
+    display: none;
+}
