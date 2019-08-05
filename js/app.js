@@ -67,9 +67,11 @@ const Player = function() {
     //number of lives a player gets
     this.lives = 3;
     //players score attribute
-    this.score = 0;
+    this.points = 0;
     //collected items
     this.storage = [];
+    //level attribute keeps track of a players progress
+    this.level = 1;
 };
 
 Player.prototype.update = function(input) {
@@ -77,10 +79,17 @@ Player.prototype.update = function(input) {
      if(input === 'left' && this.x > 49) this.x -= 100
      //if right key is pushed within a valid x range move player right
      else if(input === 'right' && this.x <= 350) this.x += 100
-     //if up key is pushed within a valid x range move player up
+     //if up key is pushed within a valid y player up
      else if (input === 'up' && this.y > 99) this.y -= 85
-     //if up key is pushed outside a valid x range reset player position to lowest position
-     else if (input === 'up' && this.y <= 99) player.win = true; //run win sequence
+     //if player reaches water and proceeds to move up and they are on level 3 
+     else if (input === 'up' && this.y <= 99 && this.level > 2) player.win = true; //run win sequence
+     //if player reaches water and proceeds to move up and they are not on level 3 
+     else if (input === 'up' && this.y <= 99) {
+         //go to the next level
+         this.level += 1;
+         this.reset();
+         allEnemies.forEach(enemy => enemy.reset());
+        } 
      //if down key is pushed within a valid x range move player down
      else if(input === 'down' && this.y <= 350) this.y += 85
       
@@ -91,7 +100,6 @@ Player.prototype.update = function(input) {
 Player.prototype.render = Enemy.prototype.render;
 
 Player.prototype.handleInput = function(input) {
-    //console.log(input);
     
     if (enemy1.x === player.x) console.log('collision enemy1');
     if (enemy2.x === player.x && enemy2.y === player.y) console.log('collision enemy2');
@@ -106,14 +114,36 @@ Player.prototype.handleInput = function(input) {
     }
     else console.log('please enter a valid command');
 
-    
-   
 };
 
 Player.prototype.reset = function() {
-    player.x = 200;
-    player.y = 385;
+    this.x = 200;
+    this.y = 385;
 };
+
+const Reward = function(points, sprite, lives) {
+    //points awrded by collecting this reward
+    this.points = points;
+    // lives awarded by collecting this item
+    this.lives = lives;
+    // the image associted with the reward
+    this.sprite = sprite;
+    // reward x position
+    this.x = this.setX();
+    // reward y position
+    this.y = this.setY();
+    // collection status
+    this.collected = false;
+
+}
+
+Reward.prototype.render = Enemy.prototype.render;
+
+Reward.prototype.setY = Enemy.prototype.setY;
+
+Reward.prototype.setX = function() {
+    return [0, 100, 200, 300, 400][Math.floor(Math.random() * 5)];
+ };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -123,6 +153,13 @@ const enemy2 = new Enemy();
 const enemy3 = new Enemy();
 const allEnemies = [enemy1, enemy2, enemy3];
 const player = new Player();
+const reward1 = new Reward(200, 'images/gem-blue.png', 0);
+const reward2 = new Reward(200, 'images/gem-orange.png', 0);
+const reward3 = new Reward(500, 'images/Star.png', 0);
+const reward4 = new Reward(200, 'images/gem-green.png', 0);
+const reward5 = new Reward(0, 'images/Heart.png', 1);
+const reward6 = new Reward(1500, 'images/Key.png', 0);
+const rewards = [[reward1], [reward2, reward3], [reward4, reward5, reward6]]
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

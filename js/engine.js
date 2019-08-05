@@ -113,6 +113,7 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         allEnemies.forEach(enemy => checkCollisions(enemy));
+        rewards[player.level-1].forEach(reward => checkCollisions(reward));
         if (player.sprite !== null) {
             timer.run(dt);
         } else {
@@ -141,7 +142,7 @@ var Engine = (function (global) {
      * @param {object} enemy this is the enemy instance currently being checked for collision
      * with the player 
      */
-    function checkCollisions(enemy) {
+    function checkCollisions(entity) {
         /**
         * @description Here we check for collisions by first comparing the x values for 
         * each charcter on screen, next we compare the y positions to see if the images 
@@ -149,22 +150,26 @@ var Engine = (function (global) {
         * y position first (allows for easier tracking of impending collisions), 
         * but requires more code due tothe random generation of enemy characters. 
          */
-        if (player.x - 50 < enemy.x && player.x + 50 > enemy.x) {
+        //first ensure that entity is an enemy
+        
+        if (player.x - 70 < entity.x && player.x + 70 > entity.x) {
             /**
             * @description This essentially compares the player and enmies x position
             * we subtract 50 px from the player x position to move the collision 
             * point from the center of the avatar to the edge; we also perform 
             * a similar adjustment on the enemy 
             */
-            if (enemy.y === 62 && player.y === 45) checkLives(enemy);
-            else if (enemy.y === 145 && player.y === 130) checkLives(enemy);
-            else if (enemy.y === 227 && player.y === 215) checkLives(enemy);
+            if (entity.y === 62 && player.y === 45) checkLives(entity);
+            else if (entity.y === 145 && player.y === 130) checkLives(entity);
+            else if (entity.y === 227 && player.y === 215) checkLives(entity);
             /**
             * @description Here we compare the y values and if they indicate a collision
             * we set the win property on the player class instance to false
             */
 
         }
+
+        
 
     }
 
@@ -174,18 +179,27 @@ var Engine = (function (global) {
          * @param {object} currentEnemy this is the cureently active enemy for whom a collision
          * has been confirmed
          */
-    function checkLives(currentEnemy) {
-
-        if (player.lives > 0) {
-            player.lives -= 1;
-            
-            player.reset();
-            currentEnemy.reset();
-        } else {
-            player.win = false;
+    function checkLives(currentEntity) {
+        if(currentEntity.points === undefined){
+            if (player.lives > 0) {
+                player.lives -= 1;
+                player.reset();
+                currentEntity.reset();
+            } else {
+                player.win = false;
+            }
+            player.points -= 100;
+            timer.reset();
+        } else if ( currentEntity.points !== undefined){
+            currentEntity.collected = true;
+            currentEntity.x = -250;
+            console.log(currentEntity.points)
+            console.log(currentEntity.lives)
+            player.points += currentEntity.points;
+            player.lives += currentEntity.lives;
         }
-        player.points -= 100;
-        timer.reset();
+
+        
     }
 
     /**  
@@ -246,10 +260,14 @@ var Engine = (function (global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function (enemy) {
-            enemy.render();
+        rewards[player.level - 1].forEach(reward => {
+            if(reward.collected === false) reward.render();
+            else if (reward.collected === true) console.log('do nothing');
         });
+        allEnemies.forEach(enemy => enemy.render());
         if (player.sprite !== null || undefined) player.render();
+        
+       
 
         scoreboard.refresh();
 
@@ -276,6 +294,7 @@ var Engine = (function (global) {
         player.reset();
         player.lives = 3;
         player.points = 500;
+        player.level = 1;
         timer.reset();
 
     }
@@ -533,7 +552,7 @@ var Engine = (function (global) {
         timeConverter: function (t) {
             if (t > 1) {
                 return t.toString().split('.')[0];
-            } 
+            } else return 0;
         }
     }
 
