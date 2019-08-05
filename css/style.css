@@ -20,6 +20,7 @@ canvas{
 }
 
 .startMenu {
+    position: absolute !important;
     top: 165px;
     left: 0;
     right:0;
@@ -54,9 +55,12 @@ canvas{
     z-index: -1;
 }
 
-#playButton {
-    border-radius: 10px;
-    height: 40px;
+button {
+    border-radius: 5px;
+    font-size: 2rem;
+    height: 50px;
+    border-width: 5px;
+    border-color: black;
 }
 
 #scoreboard {
@@ -76,7 +80,7 @@ canvas{
 
 #direction-pad {
     position: absolute;
-    top: 700px;
+    top: 800px;
     left:0;
     right:0;
     margin-right: auto;
@@ -89,12 +93,12 @@ canvas{
 #up {
     position: absolute;
     top: 5px;
-    right: 245px;
+    right: 240px;
 }
 #down {
     position: absolute;
     top: 195px;
-    right: 245px;
+    right: 240px;
 }
 #left {
     position: absolute;

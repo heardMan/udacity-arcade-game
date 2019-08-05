@@ -449,7 +449,7 @@ var Engine = (function (global) {
 
                 const avatarSelector = doc.getElementById('avatar-selector');
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
-                const selectLength = (characterArray.length * 50) + 30;
+                const selectLength = (characterArray.length * 50) + 50;
 
                 if ( allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength )
                     //if right key pressed and last character is not selected move right 50px
@@ -461,7 +461,7 @@ var Engine = (function (global) {
                 //take the current position of the selector and move it by 50 px
                 else if (e.target.id === 'right' && avatarSelectX < selectLength)
                 avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                else if (e.target.id === 'left' && avatarSelectX < selectLength)
+                else if (e.target.id === 'left' && avatarSelectX > 125)
                 avatarSelector.style.left = `${avatarSelectX - 50}px`;
 
                 
@@ -572,24 +572,7 @@ var Engine = (function (global) {
 
             const dirPad = doc.createElement('div')
             dirPad.setAttribute('id', 'direction-pad');
-            const upArrow = doc.createElement('div')
-            upArrow.setAttribute('id', 'up-arrow');
-            upArrow.innerHTML = `<i id="up" class="fas fa-arrow-alt-circle-up"></i>`;
-            const downArrow = doc.createElement('div')
-            downArrow.setAttribute('id', 'down-arrow');
-            downArrow.innerHTML = `<i id="down" class="fas fa-arrow-alt-circle-down"></i>`;
-            const rightArrow = doc.createElement('div')
-            rightArrow.setAttribute('id', 'right-arrow');
-            rightArrow.innerHTML = `<i id="right" class="fas fa-arrow-alt-circle-right"></i>`;
-            const leftArrow = doc.createElement('div')
-            leftArrow.setAttribute('id', 'left-arrow');
-            leftArrow.innerHTML = `<i id="left" class="fas fa-arrow-alt-circle-left"></i>`;
-
-            // dirPad.appendChild(upArrow);
-            // dirPad.appendChild(downArrow);
-            // dirPad.appendChild(rightArrow);
-            // dirPad.appendChild(leftArrow);
-
+        
             dirPad.innerHTML += `<i id="up" class="fas fa-arrow-alt-circle-up"></i>`
             dirPad.innerHTML += `<i id="down" class="fas fa-arrow-alt-circle-down"></i>`
             dirPad.innerHTML += `<i id="left" class="fas fa-arrow-alt-circle-left"></i>`
