@@ -449,7 +449,7 @@ var Engine = (function (global) {
 
                 const avatarSelector = doc.getElementById('avatar-selector');
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
-                const selectLength = (characterArray.length * 50) + 50;
+                const selectLength = (characterArray.length * 50) + 30;
 
                 if ( allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength )
                     //if right key pressed and last character is not selected move right 50px
