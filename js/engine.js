@@ -70,6 +70,7 @@ var Engine = (function (global) {
         } else if (player.win === null) {
             update(dt);
             render();
+            
 
             /** 
              * @description Set our lastTime variable which is used to determine the time delta
@@ -92,11 +93,12 @@ var Engine = (function (global) {
      * game loop.
      */
     function init() {
-
+        
         reset();
         lastTime = Date.now();
         //uncomment for production
         main();
+       directionPad.init();
 
     }
 
@@ -249,6 +251,7 @@ var Engine = (function (global) {
         }
 
         renderEntities();
+        
     }
 
     /** 
@@ -270,6 +273,7 @@ var Engine = (function (global) {
        
 
         scoreboard.refresh();
+        
 
     }
 
@@ -409,6 +413,7 @@ var Engine = (function (global) {
             content.appendChild(playButton);
             this.element.appendChild(content);
             doc.addEventListener('keyup', handleInput);
+            doc.addEventListener('click', handleInput);
             this.open();
             //we declare this variable so that we can reference thi scope in the following function
             const self = this;
@@ -422,8 +427,6 @@ var Engine = (function (global) {
                 const selected = (avatarSector.style.left.split('px')[0] - 100) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
-                //timer.stop();
-                //timer.runFor(30);
                 timer.reset();
                 
                 scoreboard.show();
@@ -442,11 +445,13 @@ var Engine = (function (global) {
                     39: 'right'
                 };
 
+                console.log(e);
+
                 const avatarSelector = doc.getElementById('avatar-selector');
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
                 const selectLength = (characterArray.length * 50) + 30;
 
-                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength)
+                if ( allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength )
                     //if right key pressed and last character is not selected move right 50px
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
                 //take the current position of the selector and move it by 50 px
@@ -454,6 +459,12 @@ var Engine = (function (global) {
                     //if left key pressed and last character is not selected move left 50px
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
                 //take the current position of the selector and move it by 50 px
+                else if (e.target.id === 'right' && avatarSelectX < selectLength)
+                avatarSelector.style.left = `${avatarSelectX + 50}px`;
+                else if (e.target.id === 'left' && avatarSelectX < selectLength)
+                avatarSelector.style.left = `${avatarSelectX - 50}px`;
+
+                
             }
 
         }
@@ -554,6 +565,39 @@ var Engine = (function (global) {
                 return t.toString().split('.')[0];
             } else return 0;
         }
+    }
+
+    const directionPad = {
+        init: function(){
+
+            const dirPad = doc.createElement('div')
+            dirPad.setAttribute('id', 'direction-pad');
+            const upArrow = doc.createElement('div')
+            upArrow.setAttribute('id', 'up-arrow');
+            upArrow.innerHTML = `<i id="up" class="fas fa-arrow-alt-circle-up"></i>`;
+            const downArrow = doc.createElement('div')
+            downArrow.setAttribute('id', 'down-arrow');
+            downArrow.innerHTML = `<i id="down" class="fas fa-arrow-alt-circle-down"></i>`;
+            const rightArrow = doc.createElement('div')
+            rightArrow.setAttribute('id', 'right-arrow');
+            rightArrow.innerHTML = `<i id="right" class="fas fa-arrow-alt-circle-right"></i>`;
+            const leftArrow = doc.createElement('div')
+            leftArrow.setAttribute('id', 'left-arrow');
+            leftArrow.innerHTML = `<i id="left" class="fas fa-arrow-alt-circle-left"></i>`;
+
+            // dirPad.appendChild(upArrow);
+            // dirPad.appendChild(downArrow);
+            // dirPad.appendChild(rightArrow);
+            // dirPad.appendChild(leftArrow);
+
+            dirPad.innerHTML += `<i id="up" class="fas fa-arrow-alt-circle-up"></i>`
+            dirPad.innerHTML += `<i id="down" class="fas fa-arrow-alt-circle-down"></i>`
+            dirPad.innerHTML += `<i id="left" class="fas fa-arrow-alt-circle-left"></i>`
+            dirPad.innerHTML += `<i id="right" class="fas fa-arrow-alt-circle-right"></i>`
+            
+            document.body.appendChild(dirPad);
+            
+        },
     }
 
     /* Go ahead and load all of the images we know we're going to need to

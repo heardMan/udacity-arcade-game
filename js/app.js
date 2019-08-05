@@ -166,9 +166,11 @@ const rewards = [[reward1], [reward2, reward3], [reward4, reward5, reward6]]
 
 function receiveInput(){
     document.addEventListener('keyup', listen);
+    document.addEventListener('click', listen);
 }
 function pauseInput(){
     document.removeEventListener('keyup', listen);
+    document.addEventListener('click', listen);
 }
 
 
@@ -179,9 +181,14 @@ function listen(e) {
         39: 'right',
         40: 'down'
     };
+
+    console.log(e);
+    if(e.type === 'keyup') player.handleInput(allowedKeys[e.keyCode])
+    else if (e.type === 'click') player.handleInput(e.target.id);
+
     //console.log(allowedKeys[e.keyCode]);
     
-    player.handleInput(allowedKeys[e.keyCode]);
+   
 }
 
 
