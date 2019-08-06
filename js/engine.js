@@ -405,7 +405,7 @@ var Engine = (function (global) {
 
             const playButton = doc.createElement('button');
             playButton.setAttribute('id', 'playButton');
-            playButton.textContent = 'Play Game';
+            playButton.textContent = 'Play';
             playButton.addEventListener('click', selectCharacter);
 
             content.appendChild(title);
