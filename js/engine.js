@@ -503,9 +503,11 @@ var Engine = (function (global) {
          * @description this method refreshed the values on the scoreboard
          */
         refresh: function scoreboardRefresh() {
+            const levelElement = doc.getElementById('level');
             const livesElement = doc.getElementById('lives');
             const timerElement = doc.getElementById('time');
             const pointsElement = doc.getElementById('points');
+            levelElement.innerHTML = player.level;
             livesElement.innerHTML = player.lives;
             timerElement.innerHTML = timer.timeConverter(timer.time);
             pointsElement.innerHTML = player.points;
