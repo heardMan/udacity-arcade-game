@@ -19,6 +19,7 @@ Collect Rewards
 
 Win the Game!
 
+<img src="https://github.com/heardMan/udacity-arcade-game/blob/master/images/screenShot.gif" width=300>
 
-![alt text](https://github.com/heardMan/udacity-arcade-game/blob/master/images/screenShot.gif | width=300px)
+
 
