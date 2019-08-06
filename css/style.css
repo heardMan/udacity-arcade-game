@@ -26,7 +26,7 @@ canvas{
     right:0;
     margin-left: auto;
     margin-right:auto;
-    width: 450px;
+    width: 500px;
     height: auto;
 }
 
@@ -41,16 +41,15 @@ canvas{
 }
 
 .selectionAvatar {
-    width: 50px;
+    width: 100px;
     height: auto;
     z-index: 9;
 }
 
 #avatar-selector {
     position: absolute;
-    top: 75px;
-    
-    width: 52px;
+    top: 90px;
+    width: 100px;
     height: auto;
     z-index: -1;
 }
@@ -62,12 +61,13 @@ button {
     opacity: 1;
     border-width: 5px;
     border-color: black;
+    padding: 35px;
 }
 
 #playButton {
     margin-top: 15px;
     margin-bottom: 15px;
-    padding: 35px;
+    
 }
 
 #scoreboard {
@@ -95,42 +95,34 @@ button {
     margin-top: 1px;
     width: 600px;
     height: 650px;
+}
 
+#up, #down, #left, #right {
+    width: 200px;
+    height: 200px;
+    touch-action: manipulation;
 }
 
 #up {
     position: absolute;
     top: 5px;
     right: 200px;
-    width: 200px;
-    height: 200px;
-    touch-action: manipulation;
 }
+
 #down {
     position: absolute;
     top: 415px;
     right: 200px;
-    width: 200px;
-    height: 200px;
-    touch-action: manipulation;
 }
+
 #left {
     position: absolute;
     top: 210px;
     left: 5px;
-    width: 200px;
-    height: 200px;
-    touch-action: manipulation;
 }
+
 #right {
     position: absolute;
     top: 210px;
     right: 5px;
-    width: 200px;
-    height: 200px;
-    touch-action: manipulation;
-}
-.directionIcon {
-    transform: scale(1);
-    z-index: -1;
 }

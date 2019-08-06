@@ -18,7 +18,7 @@ const Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    if (this.x > 505) {
+    if (this.x > 606) {
         //if the enemy is leaving the screen reset enemy height and speed
         this.y = this.setY();
         this.speed = this.setSpeed();
@@ -38,15 +38,15 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
+//randomly assign the enemy a y position attribute a new value
 Enemy.prototype.setY = function() {
    return [62, 145, 227][Math.floor(Math.random() * 3)];
 };
-
+//randomly assign the speed attribute a new value
 Enemy.prototype.setSpeed = function() {
     return Math.floor(Math.random() * 250) + 120;
  };
-
+//reset enemy position
  Enemy.prototype.reset = function() {
     this.x = -115;
     this.setY();
@@ -78,7 +78,7 @@ Player.prototype.update = function(input) {
      //if left key is pushed within a valid x range move player left
      if(input === 'left' && this.x > 49) this.x -= 100
      //if right key is pushed within a valid x range move player right
-     else if(input === 'right' && this.x <= 350) this.x += 100
+     else if(input === 'right' && this.x <= 450) this.x += 100
      //if up key is pushed within a valid y player up
      else if (input === 'up' && this.y > 99) this.y -= 85
      //if player reaches water and proceeds to move up and they are on level 3 
@@ -92,7 +92,7 @@ Player.prototype.update = function(input) {
         } 
      //if down key is pushed within a valid x range move player down
      else if(input === 'down' && this.y <= 350) this.y += 85
-      
+    // if no condition is met
      else  return 'No Valid Input Received';
     
 };
@@ -101,8 +101,8 @@ Player.prototype.render = Enemy.prototype.render;
 
 Player.prototype.handleInput = function(input) {
     
-    if (enemy1.x === player.x) console.log('collision enemy1');
-    if (enemy2.x === player.x && enemy2.y === player.y) console.log('collision enemy2');
+    //if (enemy1.x === player.x) console.log('collision enemy1');
+    //if (enemy2.x === player.x && enemy2.y === player.y) console.log('collision enemy2');
     if (
         input === 'up' ||
         input === 'down' ||
@@ -112,7 +112,7 @@ Player.prototype.handleInput = function(input) {
     {
         this.update(`${input}`);
     }
-    else console.log('please enter a valid command');
+    //else return 0;
 
 };
 
@@ -142,7 +142,7 @@ Reward.prototype.render = Enemy.prototype.render;
 Reward.prototype.setY = Enemy.prototype.setY;
 
 Reward.prototype.setX = function() {
-    return [0, 100, 200, 300, 400][Math.floor(Math.random() * 5)];
+    return [0, 100, 200, 300, 400, 500][Math.floor(Math.random() * 6)];
  };
 
 // Now instantiate your objects.
@@ -194,8 +194,8 @@ function listen(e) {
 
     };
 
-    console.log(e);
-    if(e.type === 'keyup') player.handleInput(allowedKeys[e.keyCode])
+   
+    if(e.type === 'keyup') player.handleInput(allowedKeys[e.keyCode]);
     else if (e.type === 'click') player.handleInput(mobileButtons[e.target.id]);
 
     //console.log(allowedKeys[e.keyCode]);

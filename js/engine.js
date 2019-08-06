@@ -26,7 +26,7 @@ var Engine = (function (global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
+    canvas.width = 606;
     canvas.height = 606;
     doc.body.append(canvas);
 
@@ -98,6 +98,7 @@ var Engine = (function (global) {
         lastTime = Date.now();
         //uncomment for production
         main();
+        //initialize the direction pad
         directionPad.init();
 
     }
@@ -114,9 +115,12 @@ var Engine = (function (global) {
      */
     function update(dt) {
         updateEntities(dt);
+
         allEnemies.forEach(enemy => checkCollisions(enemy));
         rewards[player.level - 1].forEach(reward => checkCollisions(reward));
+        //if the player sprite is not set
         if (player.sprite !== null) {
+
             timer.run(dt);
         } else {
             timer.reset();
@@ -195,8 +199,6 @@ var Engine = (function (global) {
         } else if (currentEntity.points !== undefined) {
             currentEntity.collected = true;
             currentEntity.x = -250;
-            console.log(currentEntity.points)
-            console.log(currentEntity.lives)
             player.points += currentEntity.points;
             player.lives += currentEntity.lives;
         }
@@ -225,7 +227,7 @@ var Engine = (function (global) {
             'images/grass-block.png'    // Row 2 of 2 of grass
         ],
             numRows = 6,
-            numCols = 5,
+            numCols = 6,
             row, col;
 
         // Before drawing, clear existing canvas
@@ -265,7 +267,6 @@ var Engine = (function (global) {
          */
         rewards[player.level - 1].forEach(reward => {
             if (reward.collected === false) reward.render();
-            else if (reward.collected === true) console.log('do nothing');
         });
         allEnemies.forEach(enemy => enemy.render());
         if (player.sprite !== null || undefined) player.render();
@@ -391,7 +392,7 @@ var Engine = (function (global) {
             const selectorImage = doc.createElement('img');
             selectorImage.setAttribute('id', 'avatar-selector');
             selectorImage.setAttribute('src', 'images/Selector.png');
-            selectorImage.style.left = '100px';
+            selectorImage.style.left = '0px';
             //add charactersto the character array
             characterArray.forEach(character => {
                 let avatarImage = doc.createElement('img');
@@ -423,8 +424,8 @@ var Engine = (function (global) {
             * button.
             */
             function selectCharacter() {
-                const avatarSector = doc.getElementById('avatar-selector');
-                const selected = (avatarSector.style.left.split('px')[0] - 100) / 50;
+                const avatarSelector = doc.getElementById('avatar-selector');
+                const selected = (avatarSelector.style.left.split('px')[0]) / 100;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
                 doc.removeEventListener('click', handleInput);
@@ -446,36 +447,34 @@ var Engine = (function (global) {
                     39: 'right'
                 };
 
-                console.log(e);
-
                 const avatarSelector = doc.getElementById('avatar-selector');
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
-                const selectLength = (characterArray.length * 50) + 30;
+                const selectLength = (characterArray.length * 100) + 0;
 
-                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength)
+                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength - 100)
                     //if right key pressed and with in range
-                    avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                //move character right 50px
-                else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 100)
+                    avatarSelector.style.left = `${avatarSelectX + 100}px`;
+                //move character right 100px
+                else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 0)
                     //if left key pressed and within range
-                    avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                //move character left 50px
-                else if (e.target.id === 'right' && avatarSelectX < selectLength)
+                    avatarSelector.style.left = `${avatarSelectX - 100}px`;
+                //move character left 100px
+                else if (e.target.id === 'right' && avatarSelectX < selectLength - 100)
                     //if right mobile button pressed and with in range
-                    avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                //move character right 50px
-                else if (e.target.id === 'left' && avatarSelectX > 100)
+                    avatarSelector.style.left = `${avatarSelectX + 100}px`;
+                //move character right 100px
+                else if (e.target.id === 'left' && avatarSelectX > 0)
                     //if left mobile button pressed and with in range
-                    avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                //move character left 50px
-                else if (e.target.id === 'rightIcon' && avatarSelectX < selectLength)
+                    avatarSelector.style.left = `${avatarSelectX - 100}px`;
+                //move character left 100px
+                else if (e.target.id === 'rightIcon' && avatarSelectX < selectLength - 100)
                     //if right mobile icon pressed and with in range
-                    avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                //move character right 50px
-                else if (e.target.id === 'leftIcon' && avatarSelectX > 100)
+                    avatarSelector.style.left = `${avatarSelectX + 100}px`;
+                //move character right 100px
+                else if (e.target.id === 'leftIcon' && avatarSelectX > 0)
                     //if left mobile icon pressed and with in range
-                    avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                //move character left 50px
+                    avatarSelector.style.left = `${avatarSelectX - 100}px`;
+                //move character left 100px
 
 
 
@@ -513,9 +512,7 @@ var Engine = (function (global) {
          */
         hide: function hideScoreboard() {
             const scoreboardContainer = doc.getElementById('scoreContainer');
-            console.log(scoreboardContainer.style.display);
             scoreboardContainer.classList.add('hide');
-            console.log(scoreboardContainer.style.display);
         }
     }
 
