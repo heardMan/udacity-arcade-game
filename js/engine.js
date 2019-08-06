@@ -25,7 +25,7 @@ var Engine = (function (global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-
+    let level = 1;
     canvas.width = 606;
     canvas.height = 606;
     doc.body.append(canvas);
@@ -45,6 +45,10 @@ var Engine = (function (global) {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
+        if(level !== player.level){
+            timer.reset();
+            level = player.level;
+        }
 
 
         /**  
