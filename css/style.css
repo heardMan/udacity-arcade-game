@@ -110,6 +110,7 @@ button {
     top: 100px;
     right: 100px;
 }
-.fas {
-    transform: scale(8);
+.directionIcon {
+    transform: scale(1);
+    z-index: -1;
 }

@@ -573,10 +573,10 @@ var Engine = (function (global) {
             const dirPad = doc.createElement('div')
             dirPad.setAttribute('id', 'direction-pad');
         
-            dirPad.innerHTML += `<i id="up" class="fas fa-arrow-alt-circle-up"></i>`
-            dirPad.innerHTML += `<i id="down" class="fas fa-arrow-alt-circle-down"></i>`
-            dirPad.innerHTML += `<i id="left" class="fas fa-arrow-alt-circle-left"></i>`
-            dirPad.innerHTML += `<i id="right" class="fas fa-arrow-alt-circle-right"></i>`
+            dirPad.innerHTML += `<button id="up">Up</button>`
+            dirPad.innerHTML += `<button id="down">Down</button>`
+            dirPad.innerHTML += `<button id="left">Left</i></button>`
+            dirPad.innerHTML += `<button id="right">Right</button>`
             
             document.body.appendChild(dirPad);
             
