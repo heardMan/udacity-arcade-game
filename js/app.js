@@ -145,6 +145,12 @@ Reward.prototype.setX = function() {
     return [0, 100, 200, 300, 400, 500][Math.floor(Math.random() * 6)];
  };
 
+ Reward.prototype.reset = function() {
+    this.collected = false;
+    this.x = this.setX();
+    this.y = this.setY();
+ }
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player

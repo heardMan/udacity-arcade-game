@@ -300,7 +300,15 @@ var Engine = (function (global) {
         player.lives = 3;
         player.points = 500;
         player.level = 1;
+
         timer.reset();
+        //reset rewards
+        rewards.forEach(level => {
+            level.forEach(reward =>  {
+                reward.reset();
+                console.log(reward)
+            });
+        })
 
     }
 
