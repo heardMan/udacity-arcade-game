@@ -427,6 +427,7 @@ var Engine = (function (global) {
                 const selected = (avatarSector.style.left.split('px')[0] - 100) / 50;
                 player.sprite = characterArray[selected];
                 doc.removeEventListener('keyup', handleInput);
+                doc.removeEventListener('click', handleInput);
                 timer.reset();
                 
                 scoreboard.show();
@@ -455,14 +456,27 @@ var Engine = (function (global) {
                     //if right key pressed and last character is not selected move right 50px
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
                 //take the current position of the selector and move it by 50 px
-                else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 125)
+                else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 100)
                     //if left key pressed and last character is not selected move left 50px
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
                 //take the current position of the selector and move it by 50 px
                 else if (e.target.id === 'right' && avatarSelectX < selectLength)
-                avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                else if (e.target.id === 'left' && avatarSelectX > 125)
-                avatarSelector.style.left = `${avatarSelectX - 50}px`;
+
+                    avatarSelector.style.left = `${avatarSelectX + 50}px`;
+
+                else if (e.target.id === 'left' && avatarSelectX > 100)
+
+                    avatarSelector.style.left = `${avatarSelectX - 50}px`;
+                
+                    else if (e.target.id === 'rightIcon' && avatarSelectX < selectLength)
+
+                    avatarSelector.style.left = `${avatarSelectX + 50}px`;
+
+                else if (e.target.id === 'leftIcon' && avatarSelectX > 100)
+
+                    avatarSelector.style.left = `${avatarSelectX - 50}px`;
+
+                    
 
                 
             }
@@ -572,11 +586,16 @@ var Engine = (function (global) {
 
             const dirPad = doc.createElement('div')
             dirPad.setAttribute('id', 'direction-pad');
-        
-            dirPad.innerHTML += `<button id="up">Up</button>`
-            dirPad.innerHTML += `<button id="down">Down</button>`
-            dirPad.innerHTML += `<button id="left">Left</i></button>`
-            dirPad.innerHTML += `<button id="right">Right</button>`
+            
+            const upArrow = '<img id="upIcon" src="images/up.svg" class="directionIcon">';
+            const downArrow = '<img id="downIcon" src="images/down.svg" class="directionIcon">';
+            const leftArrow = '<img id="leftIcon" src="images/left.svg" class="directionIcon">';
+            const rightArrow = '<img id="rightIcon" src="images/right.svg" class="directionIcon">';
+
+            dirPad.innerHTML += `<button id="up">${upArrow}</button>`
+            dirPad.innerHTML += `<button id="down">${downArrow}</button>`
+            dirPad.innerHTML += `<button id="left">${leftArrow}</i></button>`
+            dirPad.innerHTML += `<button id="right">${rightArrow}</button>`
             
             document.body.appendChild(dirPad);
             
@@ -604,7 +623,11 @@ var Engine = (function (global) {
         'images/Key.png',
         'images/Rock.png',
         'images/Selector.png',
-        'images/Star.png'
+        'images/Star.png',
+        'images/up.svg',
+        'images/down.svg',
+        'images/left.svg',
+        'images/right.svg'
 
     ]);
     Resources.onReady(init);

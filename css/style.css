@@ -58,8 +58,8 @@ canvas{
 button {
     border-radius: 5px;
     font-size: 2rem;
-    width: 100px;
-    height: 100px;
+    z-index: 99;
+    opacity: 1;
     border-width: 5px;
     border-color: black;
 }
@@ -67,6 +67,7 @@ button {
 #playButton {
     margin-top: 15px;
     margin-bottom: 15px;
+    padding: 35px;
 }
 
 #scoreboard {
@@ -107,7 +108,7 @@ button {
 }
 #down {
     position: absolute;
-    top: 405px;
+    top: 415px;
     right: 200px;
     width: 200px;
     height: 200px;
@@ -115,7 +116,7 @@ button {
 }
 #left {
     position: absolute;
-    top: 205px;
+    top: 210px;
     left: 5px;
     width: 200px;
     height: 200px;
@@ -123,7 +124,7 @@ button {
 }
 #right {
     position: absolute;
-    top: 205px;
+    top: 210px;
     right: 5px;
     width: 200px;
     height: 200px;
