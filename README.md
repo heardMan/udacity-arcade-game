@@ -1,20 +1,24 @@
 # udacity-arcade-game
 
-## Table of Contents
+Welcome to Dodge 'Em
 
-- [Instructions](#instructions)
-- [Contributing](#contributing)
+The web app that is just like Frogger!
 
-## Instructions
+Feel free to select and move characters with either the 
 
-Use this [rubric](https://review.udacity.com/#!/rubrics/15/view) for self-checking your submission.
+onscreen direction pad
 
-Make sure the functions you write are **object-oriented** - either class functions (like `Player` and `Enemy`) or class prototype functions such as `Enemy.prototype.checkCollisions`. Also make sure that the keyword `this` is used appropriately within your class and class prototype functions to refer to the object the function is called upon.
+or
 
-Your **README.md** file should be updated with instructions on both how to 1. Run and 2. Play your arcade game.
+your keyboard direction pad
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
 
-## Contributing
+Dodge Enemies
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Collect Rewards
+
+Win the Game!
+
+
+![alt text](https://github.com/heardMan/udacity-arcade-game/blob/master/images/screenShot.gif)
+
