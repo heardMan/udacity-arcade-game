@@ -70,7 +70,7 @@ var Engine = (function (global) {
         } else if (player.win === null) {
             update(dt);
             render();
-            
+
 
             /** 
              * @description Set our lastTime variable which is used to determine the time delta
@@ -93,12 +93,12 @@ var Engine = (function (global) {
      * game loop.
      */
     function init() {
-        
+
         reset();
         lastTime = Date.now();
         //uncomment for production
         main();
-       directionPad.init();
+        directionPad.init();
 
     }
 
@@ -115,7 +115,7 @@ var Engine = (function (global) {
     function update(dt) {
         updateEntities(dt);
         allEnemies.forEach(enemy => checkCollisions(enemy));
-        rewards[player.level-1].forEach(reward => checkCollisions(reward));
+        rewards[player.level - 1].forEach(reward => checkCollisions(reward));
         if (player.sprite !== null) {
             timer.run(dt);
         } else {
@@ -153,7 +153,7 @@ var Engine = (function (global) {
         * but requires more code due tothe random generation of enemy characters. 
          */
         //first ensure that entity is an enemy
-        
+
         if (player.x - 70 < entity.x && player.x + 70 > entity.x) {
             /**
             * @description This essentially compares the player and enmies x position
@@ -171,7 +171,7 @@ var Engine = (function (global) {
 
         }
 
-        
+
 
     }
 
@@ -182,7 +182,7 @@ var Engine = (function (global) {
          * has been confirmed
          */
     function checkLives(currentEntity) {
-        if(currentEntity.points === undefined){
+        if (currentEntity.points === undefined) {
             if (player.lives > 0) {
                 player.lives -= 1;
                 player.reset();
@@ -192,7 +192,7 @@ var Engine = (function (global) {
             }
             player.points -= 100;
             timer.reset();
-        } else if ( currentEntity.points !== undefined){
+        } else if (currentEntity.points !== undefined) {
             currentEntity.collected = true;
             currentEntity.x = -250;
             console.log(currentEntity.points)
@@ -201,7 +201,7 @@ var Engine = (function (global) {
             player.lives += currentEntity.lives;
         }
 
-        
+
     }
 
     /**  
@@ -251,7 +251,7 @@ var Engine = (function (global) {
         }
 
         renderEntities();
-        
+
     }
 
     /** 
@@ -264,16 +264,16 @@ var Engine = (function (global) {
          * the render function you have defined.
          */
         rewards[player.level - 1].forEach(reward => {
-            if(reward.collected === false) reward.render();
+            if (reward.collected === false) reward.render();
             else if (reward.collected === true) console.log('do nothing');
         });
         allEnemies.forEach(enemy => enemy.render());
         if (player.sprite !== null || undefined) player.render();
-        
-       
+
+
 
         scoreboard.refresh();
-        
+
 
     }
 
@@ -429,7 +429,7 @@ var Engine = (function (global) {
                 doc.removeEventListener('keyup', handleInput);
                 doc.removeEventListener('click', handleInput);
                 timer.reset();
-                
+
                 scoreboard.show();
                 self.close();
 
@@ -452,33 +452,33 @@ var Engine = (function (global) {
                 const avatarSelectX = Number(avatarSelector.style.left.split('px')[0]);
                 const selectLength = (characterArray.length * 50) + 30;
 
-                if ( allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength )
-                    //if right key pressed and last character is not selected move right 50px
+                if (allowedKeys[e.keyCode] === 'right' && avatarSelectX < selectLength)
+                    //if right key pressed and with in range
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
-                //take the current position of the selector and move it by 50 px
+                //move character right 50px
                 else if (allowedKeys[e.keyCode] === 'left' && avatarSelectX > 100)
-                    //if left key pressed and last character is not selected move left 50px
+                    //if left key pressed and within range
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                //take the current position of the selector and move it by 50 px
+                //move character left 50px
                 else if (e.target.id === 'right' && avatarSelectX < selectLength)
-
+                    //if right mobile button pressed and with in range
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
-
+                //move character right 50px
                 else if (e.target.id === 'left' && avatarSelectX > 100)
-
+                    //if left mobile button pressed and with in range
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
-                
-                    else if (e.target.id === 'rightIcon' && avatarSelectX < selectLength)
-
+                //move character left 50px
+                else if (e.target.id === 'rightIcon' && avatarSelectX < selectLength)
+                    //if right mobile icon pressed and with in range
                     avatarSelector.style.left = `${avatarSelectX + 50}px`;
-
+                //move character right 50px
                 else if (e.target.id === 'leftIcon' && avatarSelectX > 100)
-
+                    //if left mobile icon pressed and with in range
                     avatarSelector.style.left = `${avatarSelectX - 50}px`;
+                //move character left 50px
 
-                    
 
-                
+
             }
 
         }
@@ -533,9 +533,9 @@ var Engine = (function (global) {
          * timer should be set for 
          */
         reset: function (t) {
-            if(typeof t === Number) timer.time = t;
+            if (typeof t === Number) timer.time = t;
             else this.time = 15.99;
-           
+
         },
         /**
          * @description this method decrements the timers time by adding up the 
@@ -582,11 +582,11 @@ var Engine = (function (global) {
     }
 
     const directionPad = {
-        init: function(){
+        init: function () {
 
             const dirPad = doc.createElement('div')
             dirPad.setAttribute('id', 'direction-pad');
-            
+
             const upArrow = '<img id="upIcon" src="images/up.svg" class="directionIcon">';
             const downArrow = '<img id="downIcon" src="images/down.svg" class="directionIcon">';
             const leftArrow = '<img id="leftIcon" src="images/left.svg" class="directionIcon">';
@@ -596,9 +596,9 @@ var Engine = (function (global) {
             dirPad.innerHTML += `<button id="down">${downArrow}</button>`
             dirPad.innerHTML += `<button id="left">${leftArrow}</i></button>`
             dirPad.innerHTML += `<button id="right">${rightArrow}</button>`
-            
+
             document.body.appendChild(dirPad);
-            
+
         },
     }
 

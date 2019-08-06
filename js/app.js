@@ -182,9 +182,21 @@ function listen(e) {
         40: 'down'
     };
 
+    const mobileButtons = {
+        upIcon: 'up',
+        up: 'up',
+        downIcon: 'down',
+        down: 'down',
+        rightIcon: 'right',
+        right: 'right',
+        leftIcon: 'left',
+        left: 'left',
+
+    };
+
     console.log(e);
     if(e.type === 'keyup') player.handleInput(allowedKeys[e.keyCode])
-    else if (e.type === 'click') player.handleInput(e.target.id);
+    else if (e.type === 'click') player.handleInput(mobileButtons[e.target.id]);
 
     //console.log(allowedKeys[e.keyCode]);
     
