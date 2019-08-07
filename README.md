@@ -1,6 +1,6 @@
 # Dodge 'Em
 
-##Introduction
+## Introduction
 
 Welcome to Dodge 'Em
 
@@ -20,7 +20,7 @@ Check out the <a href="https://heardman.github.io/udacity-arcade-game/">LIVE DEM
 
 <img src="https://github.com/heardMan/udacity-arcade-game/blob/master/images/screenShot.gif" width=300>
 
-##Clone/Install Instructions
+## Clone/Install Instructions
 
 Copy and paste the following in your terminal or command prompt:
 
