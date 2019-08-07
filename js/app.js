@@ -1,4 +1,4 @@
-
+'use strict';
 // Enemies our player must avoid
 const Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -82,7 +82,7 @@ Player.prototype.update = function(input) {
      //if up key is pushed within a valid y player up
      else if (input === 'up' && this.y > 99) this.y -= 85
      //if player reaches water and proceeds to move up and they are on level 3 
-     else if (input === 'up' && this.y <= 99 && this.level > 2) player.win = true; //run win sequence
+     else if (input === 'up' && this.y <= 99 && this.level > 2) this.win = true; //run win sequence
      //if player reaches water and proceeds to move up and they are not on level 3 
      else if (input === 'up' && this.y <= 99) {
          //go to the next level
