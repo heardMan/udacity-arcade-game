@@ -1,3 +1,4 @@
+'use strict';
 /**  
  * @description Engine.js
  * This file provides the game loop functionality (update entities and render),
@@ -310,7 +311,6 @@ var Engine = (function (global) {
         rewards.forEach(level => {
             level.forEach(reward =>  {
                 reward.reset();
-                console.log(reward)
             });
         })
 
